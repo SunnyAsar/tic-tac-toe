@@ -13,7 +13,7 @@ class Game
     system 'clear'
     puts 'Welcome to tic tac toe'
     ask_players_data
-    @board.print_board
+    @board.print
     # play
   end
 
