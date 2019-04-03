@@ -11,5 +11,6 @@
     // "ruby.rubocop.configFilePath": "/path/to/config/.rubocop.yml",
   
     // default true
-    "ruby.rubocop.onSave": true
+    "ruby.rubocop.onSave": true,
+    "editor.tabSize": 2
   }
