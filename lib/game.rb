@@ -1,25 +1,31 @@
 # game class
+require 'tty-prompt'
+require_relative './player.rb'
+require_relative './board.rb'
+
 class Game
-  require 'tty-prompt'
-  require './lib/player.rb'
-  require_relative './board.rb'
-  def initialize; end
-  @current_player
-  def start
-    welcome
+
+  def initialize
+    @players = []
   end
 
-  def welcome
+  def start
     @prompt = TTY::Prompt.new
     system 'clear'
     puts 'Welcome to tic tac toe'
-    player1 = @prompt.ask("What's your name player One?", default: ENV['USER'])
-    player2 = @prompt.ask("What's your name player Two?", default: ENV['USER'])
-    turn = @prompt.select('Who wants to go first?', [player1, player2])
-    @prompt.say " #{turn}' goes first!", color: :cyan
-    @player1 = Player.new(player1, 'X')
-    @player2 = Player.new(player2, 'O')
+    ask_players_data
     board = Board.new
     board.present_board
+  end
+
+  def ask_players_data
+    2.times do |n|
+      player_name = @prompt.ask("What's your name player#{n + 1}?", default: ENV['USER'])
+      board_piece = n == 1 ? 'X' : 'O'
+      player = Player.new(player_name, board_piece)
+      @players << player
+    end
+    turn = @prompt.select('Who wants to go first?', @players.map(&:name))
+    @current_player = @players.select { |p| p.name == turn }
   end
 end
