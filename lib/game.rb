@@ -10,9 +10,8 @@ class Game
   end
 
   def start
-    @prompt = TTY::Prompt.new(interrupt: :exit)
     system 'clear'
-    alert 'Welcome to tic tac toe'
+    say 'Welcome to tic tac toe'
     ask_players_data
     @board.print
     # play
@@ -22,7 +21,7 @@ class Game
     loop do
       @current_player.play
       if win?
-        alert "Player #{@current_player.name} won!"
+        say "Player #{@current_player.name} won!"
         sleep 2
         exit 0
       else
@@ -50,7 +49,6 @@ class Game
   end
 
   def win?
-    board_state = @borad.state
     true
   end
 end

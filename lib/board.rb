@@ -22,10 +22,10 @@ class Board
       "  ┗━━━━━━━━━━━━━┛  ",
       "                   "
     ].join("\n")
-    system "clear"
-    alert "\n  #{player_name.upcase}'s turn", color: :bright_green
-    alert board, color: :green
-    alert "\n  Use the arrows to move on the board and press enter (return) to select", color: :cyan
+    system 'clear'
+    say "\n  #{player_name.upcase}'s turn", color: :bright_green
+    say board, color: :green
+    say "\n  Use the arrows to move on the board and press enter (return) to select", color: :cyan
   end
 
   private
