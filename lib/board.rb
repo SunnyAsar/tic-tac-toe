@@ -1,12 +1,14 @@
 require 'tty-prompt'
 # board class
 class Board
+  attr_reader :state
+  PLACEHOLDER = '·'
   def initialize
-    @state = Array.new(9, '·')
+    @state = Array.new(9, PLACEHOLDER)
     @cursor = 4
   end
 
-  def print(player_name = 'Test')
+  def print(player_name = 'Test', msg)
     prompt = TTY::Prompt.new(Interrupt: :exit)
     board = [
       "                   ",
@@ -24,7 +26,7 @@ class Board
     system "clear"
     prompt.say "\n  #{player_name.upcase}'s turn", color: :bright_green
     prompt.say board, color: :green
-    prompt.say "\n  Use the arrows to move on the board and press enter (return) to select", color: :cyan
+    puts msg
   end
 
   private
@@ -39,13 +41,10 @@ class Board
     case @cursor
     when -1
       @cursor = 2
-      break
     when 2
       @cursor = 5
-      break
     when 5
       @cursor = 8
-      break
     end
 
   end
@@ -55,13 +54,10 @@ class Board
     case @cursor
     when 3
       @cursor = 0
-      break
     when 6
       @cursor = 3
-      break
     when 9
       @cursor = 6
-      break
     end
   end
 
@@ -75,5 +71,15 @@ class Board
     @cursor -= 9 if @cursor > 8
   end
 
+  def mark_position(piece)
+    if @state[@cursor] == PLACEHOLDER
+      @state[@cursor] = piece
+      return true
+    end
+    false
+  end
 
+  def is_full?
+    @state.count(PLACEHOLDER).zero?
+  end
 end

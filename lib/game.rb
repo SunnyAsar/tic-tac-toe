@@ -6,6 +6,7 @@ require_relative './board.rb'
 class Game
   def initialize
     @board = Board.new
+    @game_result = ''
   end
 
   def start
@@ -13,20 +14,20 @@ class Game
     system 'clear'
     puts 'Welcome to tic tac toe'
     ask_players_data
-    @board.print
-    # play
+    play
   end
+
+  private
 
   def play
     loop do
       @current_player.play
-      if win?
-        puts "Player #{@current_player.name} won!"
+      if end?
+        puts @game_result
         sleep 2
         exit 0
       else
         change_player
-        p "#{@current_player.name} is playing now"
       end
     end
   end
@@ -48,8 +49,11 @@ class Game
     @current_player, @next_player = @next_player, @current_player
   end
 
-  def win?
-    board_state = @borad.state
-    true
+  def end?
+    if @board.is_full?
+      @game_result = 'Draw'
+      return true
+    end
+    false
   end
 end
