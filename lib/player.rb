@@ -15,7 +15,7 @@ class Player
     msg = ''
     until turn_finished
       @board.print(@name, msg)
-      key = keypress 'Use the arrows to move the cursor or press enter (return) to select'
+      key = keypress "\nUse the arrows to move the cursor or press enter (return) to select\n"
       case key
       when KEY_UP
         @board.move_cursor_up

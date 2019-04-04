@@ -9,7 +9,7 @@ class Board
     @cursor = 4
   end
 
-  def print(player_name = 'Test', message = "")
+  def print(player_name = nil, message = "")
     board = [
       "                   ",
       "  ┏━━━━━━━━━━━━━┓  ",
@@ -24,9 +24,9 @@ class Board
       "                   "
     ].join("\n")
     system 'clear'
-    say "\n  #{player_name.upcase}'s turn", color: :bright_green
+    say("\n  #{player_name.upcase}'s turn", color: :bright_green) unless player_name.nil?
     say board, color: :green
-    say("\n #{message} \n", color: :red)
+    say("\n #{message}", color: :red)
   end
 
   private

@@ -5,6 +5,7 @@ require_relative './board.rb'
 # game class
 class Game
   include Prompt
+  DIM = 3
   def initialize
     @board = Board.new
     @game_result = ''
@@ -23,8 +24,7 @@ class Game
     loop do
       @current_player.play
       if end?
-        puts @game_result
-        sleep 2
+        print_result
         exit 0
       else
         change_player
@@ -50,23 +50,26 @@ class Game
   end
 
   def end?
-    if @board.is_full?
+    if win?(@current_player.board_piece)
+      @game_result = "The winner is #{@current_player.name}!!!"
+      return true
+    elsif @board.is_full?
       @game_result = 'Draw'
       return true
     end
     false
   end
 
-  def win?()
-    [0,1,2]
-    [3,4,5]
-    [6,7,8]
+  def win?(piece)
+    rows = @board.state.each_slice(DIM).to_a
+    rows.any? { |row| row.all? { |p| p == piece } } ||
+      rows.transpose.any? { |row| row.all? { |p| p == piece } } ||
+      rows.map.with_index.all? { |row, i| row[i] == piece } ||
+      rows.map.with_index.all? { |row, i| row[DIM-1-i] == piece }
+  end
 
-    [0,3,6]
-    [1,4,7]
-    [2,5,5]
-
-    [0,4,8]
-    [2,3,6]
+  def print_result
+    @board.print
+    say @game_result, color: :bright_green
   end
 end
