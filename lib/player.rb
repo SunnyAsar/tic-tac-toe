@@ -6,4 +6,8 @@ class Player
     @board_piece = board_piece
     @board = board
   end
+
+  def play
+    # @TODO here the player is going to interect with te board
+  end
 end

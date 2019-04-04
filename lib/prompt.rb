@@ -1,4 +1,5 @@
 require 'tty-prompt'
+# Prompt module to manage IO
 module Prompt
   @@prompt = TTY::Prompt.new(interrupt: :exit)
   KEY_UP = "\e[A".freeze

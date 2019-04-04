@@ -13,13 +13,13 @@ class Game
     system 'clear'
     say 'Welcome to tic tac toe'
     ask_players_data
-    @board.print
-    # play
+    @board.print # Temporary print of the board just to see if the method is working
+    # play # we dont want to be running the method play yet
   end
 
   def play
     loop do
-      @current_player.play
+      @current_player.play # @TODO
       if win?
         say "Player #{@current_player.name} won!"
         sleep 2
@@ -49,6 +49,7 @@ class Game
   end
 
   def win?
-    true
+    # @TODO
+    true # This return true just to not be on an inifinte loop
   end
 end
