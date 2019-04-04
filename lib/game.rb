@@ -37,7 +37,7 @@ class Game
     2.times do |n|
       player_name = ask("What's your name player#{n + 1}?", default: ENV['USER'])
       board_piece = n == 1 ? 'X' : 'O'
-      player = Player.new(player_name, board_piece,@board)
+      player = Player.new(player_name, board_piece, @board)
       players << player
     end
     turn = selection('Who wants to go first?', players.map(&:name))
@@ -51,10 +51,10 @@ class Game
 
   def end?
     if win?(@current_player.board_piece)
-      @game_result = "The winner is #{@current_player.name}!!!"
+      @game_result = " The winner is #{@current_player.name}!!!\n"
       return true
     elsif @board.is_full?
-      @game_result = 'Draw'
+      @game_result = " It's a Draw!!!\n"
       return true
     end
     false
@@ -65,7 +65,7 @@ class Game
     rows.any? { |row| row.all? { |p| p == piece } } ||
       rows.transpose.any? { |row| row.all? { |p| p == piece } } ||
       rows.map.with_index.all? { |row, i| row[i] == piece } ||
-      rows.map.with_index.all? { |row, i| row[DIM-1-i] == piece }
+      rows.map.with_index.all? { |row, i| row[DIM - 1 - i] == piece }
   end
 
   def print_result
