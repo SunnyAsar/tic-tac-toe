@@ -19,18 +19,14 @@ class Player
       case key
       when KEY_UP
         @board.move_cursor_up
-        break
       when KEY_DOWN
         @board.move_cursor_down
-        break
       when KEY_LEFT
         @board.move_cursor_left
-        break
       when KEY_RIGHT
         @board.move_cursor_right
-        break
       when KEY_RETURN
-        valid = @bard.mark_position(@board_piece)
+        valid = @board.mark_position(@board_piece)
         msg = 'No valid selection' unless valid
         turn_finished = true if valid
       end

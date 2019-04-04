@@ -46,7 +46,6 @@ class Board
     when 5
       @cursor = 8
     end
-
   end
 
   def move_cursor_right
