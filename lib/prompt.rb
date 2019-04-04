@@ -7,15 +7,15 @@ module Prompt
   KEY_RIGHT = "\e[C".freeze
   KEY_RETURN = "\r".freeze
 
-  def say(text, *args)
-    @prompt.say(text, *args)
+  def alert(*args)
+    @prompt.say(*args)
   end
 
-  def ask(text, *args)
-    @prompt.ask(text, *args)
+  def ask(*args)
+    @prompt.ask(*args)
   end
 
-  def selection(text, *args)
-    @prompt.select(text, *args)
+  def selection(*args)
+    @prompt.select(*args)
   end
 end
