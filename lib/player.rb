@@ -11,12 +11,11 @@ class Player
   end
 
   def play
-    prompt = TTY::Prompt.new(interrupt: :exit)
     turn_finished = false
     msg = ''
     until turn_finished
       @board.print(@name, msg)
-      key = prompt.keypress 'Use the arrows to move the cursor or press enter (return) to select'
+      key = keypress 'Use the arrows to move the cursor or press enter (return) to select'
       case key
       when KEY_UP
         @board.move_cursor_up

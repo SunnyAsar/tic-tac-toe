@@ -1,6 +1,7 @@
-require 'tty-prompt'
+require_relative './prompt.rb'
 # board class
 class Board
+  include Prompt
   attr_reader :state
   PLACEHOLDER = '·'
   def initialize
@@ -8,8 +9,7 @@ class Board
     @cursor = 4
   end
 
-  def print(player_name = 'Test', msg)
-    prompt = TTY::Prompt.new(Interrupt: :exit)
+  def print(player_name = 'Test')
     board = [
       "                   ",
       "  ┏━━━━━━━━━━━━━┓  ",
@@ -23,10 +23,10 @@ class Board
       "  ┗━━━━━━━━━━━━━┛  ",
       "                   "
     ].join("\n")
-    system "clear"
-    prompt.say "\n  #{player_name.upcase}'s turn", color: :bright_green
-    prompt.say board, color: :green
-    puts msg
+    system 'clear'
+    say "\n  #{player_name.upcase}'s turn", color: :bright_green
+    say board, color: :green
+    say "\n  Use the arrows to move on the board and press enter (return) to select", color: :cyan
   end
 
   private
