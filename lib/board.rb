@@ -9,7 +9,7 @@ class Board
     @cursor = 4
   end
 
-  def print(player_name = 'Test')
+  def print(player_name = 'Test', message = "")
     board = [
       "                   ",
       "  ┏━━━━━━━━━━━━━┓  ",
@@ -26,7 +26,7 @@ class Board
     system 'clear'
     say "\n  #{player_name.upcase}'s turn", color: :bright_green
     say board, color: :green
-    say "\n  Use the arrows to move on the board and press enter (return) to select", color: :cyan
+    say("\n #{message} \n", color: :red)
   end
 
   private
