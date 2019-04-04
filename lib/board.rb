@@ -2,13 +2,14 @@ require_relative './prompt.rb'
 # board class
 class Board
   include Prompt
+  attr_reader :state
+  PLACEHOLDER = '·'
   def initialize
-    @state = Array.new(9, '·')
+    @state = Array.new(9, PLACEHOLDER)
     @cursor = 4
   end
 
   def print(player_name = 'Test')
-    # prompt = TTY::Prompt.new(Interrupt: :exit)
     board = [
       "                   ",
       "  ┏━━━━━━━━━━━━━┓  ",
@@ -40,13 +41,10 @@ class Board
     case @cursor
     when -1
       @cursor = 2
-      break
     when 2
       @cursor = 5
-      break
     when 5
       @cursor = 8
-      break
     end
 
   end
@@ -56,13 +54,10 @@ class Board
     case @cursor
     when 3
       @cursor = 0
-      break
     when 6
       @cursor = 3
-      break
     when 9
       @cursor = 6
-      break
     end
   end
 
@@ -76,4 +71,15 @@ class Board
     @cursor -= 9 if @cursor > 8
   end
 
+  def mark_position(piece)
+    if @state[@cursor] == PLACEHOLDER
+      @state[@cursor] = piece
+      return true
+    end
+    false
+  end
+
+  def is_full?
+    @state.count(PLACEHOLDER).zero?
+  end
 end

@@ -19,4 +19,8 @@ module Prompt
   def selection(*args)
     @@prompt.select(*args)
   end
+
+  def keypress(*args)
+    @@prompt.keypress(*args)
+  end
 end

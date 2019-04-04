@@ -7,26 +7,27 @@ class Game
   include Prompt
   def initialize
     @board = Board.new
+    @game_result = ''
   end
 
   def start
     system 'clear'
     say 'Welcome to tic tac toe'
     ask_players_data
-    @board.print # Temporary print of the board just to see if the method is working
-    # play # we dont want to be running the method play yet
+    play
   end
+
+  private
 
   def play
     loop do
-      @current_player.play # @TODO
-      if win?
-        say "Player #{@current_player.name} won!"
+      @current_player.play
+      if end?
+        puts @game_result
         sleep 2
         exit 0
       else
         change_player
-        # say "#{@current_player.name} is playing now"
       end
     end
   end
@@ -48,8 +49,11 @@ class Game
     @current_player, @next_player = @next_player, @current_player
   end
 
-  def win?
-    # @TODO
-    true # This return true just to not be on an inifinte loop
+  def end?
+    if @board.is_full?
+      @game_result = 'Draw'
+      return true
+    end
+    false
   end
 end
