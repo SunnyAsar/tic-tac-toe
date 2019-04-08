@@ -5,6 +5,7 @@ require_relative './board.rb'
 class Game
   include Prompt
   DIM = 3
+
   def initialize
     @board = Board.new
     @game_result = ''
@@ -21,7 +22,7 @@ class Game
 
   def play
     loop do
-     	play_turn(@current_player)
+      play_turn(@current_player)
       if end?
         print_result
         exit 0
@@ -70,39 +71,42 @@ class Game
   def print_result
     @board.print
     say @game_result, color: :bright_green
-	end
-	
-	def print_board(message = "", parsed_board, player_name = nil)
-		system 'clear'
-		say("\n  #{player_name.upcase}'s turn", color: :bright_green) unless player_name.nil?
+  end
+
+  def print_board(message: '', parsed_board:, player_name:)
+    system 'clear'
+    say("\n  #{player_name.upcase}'s turn", color: :bright_green) unless player_name.nil?
     say parsed_board, color: :green
     say("\n #{message}", color: :red)
-	end	
+  end
 
-	def play_turn(player)
+  def play_turn(player)
     turn_finished = false
-    msg = ''
     until turn_finished
-      @board.print_board(msg, @board.parsed_board, player.name)
-			key = keypress "\nUse the arrows to move the cursor or press enter (return) to select\n"
-			make_move(key)
+      @board.print_board(message: @message, parsed_board: @board.parsed_board, player_name: player.name)
+      key = keypress "\nUse the arrows to move the cursor or press enter (return) to select\n"
+      turn_finished = make_move(key)
     end
   end
 
-	def make_move(key)
-		case key
-		when KEY_UP
-			@board.move_cursor_up
-		when KEY_DOWN
-			@board.move_cursor_down
-		when KEY_LEFT
-			@board.move_cursor_left
-		when KEY_RIGHT
-			@board.move_cursor_right
-		when KEY_RETURN
-			valid = @board.mark_position(@board_piece)
-			msg = 'No valid selection' unless valid
-			turn_finished = true if valid
-		end
-	end
+  def make_move(key, player_piece)
+    case key
+    when KEY_UP
+      @board.move_cursor_up
+    when KEY_DOWN
+      @board.move_cursor_down
+    when KEY_LEFT
+      @board.move_cursor_left
+    when KEY_RIGHT
+      @board.move_cursor_right
+    when KEY_RETURN
+      @board.mark_position(player_piece) if valid_move?([@current_player.board_piece, @next_player.board_piece], @board.cursor_value)
+    end
+  end
+
+  def valid_move?(players_piece, current_board_value)
+    have_piece = players_piece.include? current_board_value
+    @message = 'Not Valid Move' if have_piece
+    !have_piece
+  end
 end

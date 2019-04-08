@@ -8,8 +8,8 @@ class Board
     @cursor = 4
   end
 
-  def parse_board(cursor)
-    board = [
+  def parse_board
+    [
       "                   ",
       "  ┏━━━━━━━━━━━━━┓  ",
       "  ┃    ╷   ╷    ┃  ",
@@ -75,5 +75,9 @@ class Board
 
   def is_full?
     @state.count(PLACEHOLDER).zero?
+  end
+
+  def cursor_value
+    @state[@cursor]
   end
 end
