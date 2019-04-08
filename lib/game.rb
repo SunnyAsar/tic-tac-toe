@@ -15,15 +15,15 @@ class Game
     system 'clear'
     say 'Welcome to tic tac toe'
     ask_players_data
-    play
+    play(@board)
   end
 
   private
 
-  def play
+  def play(board)
     loop do
       play_turn(@current_player)
-      if end?
+      if end?(@current_player, board)
         print_result
         exit 0
       else
@@ -49,11 +49,11 @@ class Game
     @current_player, @next_player = @next_player, @current_player
   end
 
-  def end?
-    if win?(@current_player.board_piece,@board.state)
-      @game_result = " The winner is #{@current_player.name}!!!\n"
+  def end?(player, board)
+    if win?(player.board_piece, board.state)
+      @game_result = " The winner is #{player.name}!!!\n"
       return true
-    elsif @board.is_full?
+    elsif board.is_full?
       @game_result = " It's a Draw!!!\n"
       return true
     end
@@ -69,7 +69,7 @@ class Game
   end
 
   def print_result
-		say " #{@board.parse_board} \n"
+    say "#{@board.parse_board}\n"
     say @game_result, color: :bright_green
   end
 
@@ -106,7 +106,7 @@ class Game
 
   def valid_move?(players_piece, current_board_value)
     have_piece = players_piece.include? current_board_value
-    @message = 'Not Valid Move' if have_piece
+    @message = have_piece ? 'Not Valid Move' : ''
     !have_piece
   end
 end
