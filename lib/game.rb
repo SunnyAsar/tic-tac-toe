@@ -50,7 +50,7 @@ class Game
   end
 
   def end?
-    if win?(@current_player.board_piece)
+    if win?(@current_player.board_piece,@board.state)
       @game_result = " The winner is #{@current_player.name}!!!\n"
       return true
     elsif @board.is_full?
@@ -60,8 +60,8 @@ class Game
     false
   end
 
-  def win?(piece)
-    rows = @board.state.each_slice(DIM).to_a
+  def win?(piece, game_state)
+    rows = game_state.each_slice(DIM).to_a
     rows.any? { |row| row.all? { |p| p == piece } } ||
       rows.transpose.any? { |row| row.all? { |p| p == piece } } ||
       rows.map.with_index.all? { |row, i| row[i] == piece } ||
@@ -69,7 +69,7 @@ class Game
   end
 
   def print_result
-    @board.print
+		say " #{@board.parse_board} \n"
     say @game_result, color: :bright_green
   end
 
@@ -83,9 +83,9 @@ class Game
   def play_turn(player)
     turn_finished = false
     until turn_finished
-      @board.print_board(message: @message, parsed_board: @board.parsed_board, player_name: player.name)
+      print_board(message: @message, parsed_board: @board.parse_board, player_name: player.name)
       key = keypress "\nUse the arrows to move the cursor or press enter (return) to select\n"
-      turn_finished = make_move(key)
+      turn_finished = make_move(key, player.board_piece)
     end
   end
 
