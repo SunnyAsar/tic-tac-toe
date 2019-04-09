@@ -18,17 +18,13 @@ class Game
     play(@board)
   end
 
-  private
+  protected
 
   def play(board)
     loop do
       play_turn(@current_player)
-      if end?(@current_player, board)
-        print_result
-        exit 0
-      else
-        change_player
-      end
+      end_game if win?(@current_player, @board.state) || tie?(@board)
+      change_player
     end
   end
 
@@ -49,28 +45,27 @@ class Game
     @current_player, @next_player = @next_player, @current_player
   end
 
-  def end?(player, board)
-    if win?(player.board_piece, board.state)
-      @game_result = " The winner is #{player.name}!!!\n"
-      return true
-    elsif board.is_full?
-      @game_result = " It's a Draw!!!\n"
-      return true
-    end
-    false
-  end
-
-  def win?(piece, game_state)
-    rows = game_state.each_slice(DIM).to_a
-    rows.any? { |row| row.all? { |p| p == piece } } ||
-      rows.transpose.any? { |row| row.all? { |p| p == piece } } ||
-      rows.map.with_index.all? { |row, i| row[i] == piece } ||
-      rows.map.with_index.all? { |row, i| row[DIM - 1 - i] == piece }
-  end
-
-  def print_result
+  def end_game
+    system 'clear'
     say "#{@board.parse_board}\n"
     say @game_result, color: :bright_green
+    exit 0
+  end
+
+  def tie?(board)
+    puts "runing tie?"
+    @game_result = "It's a Draw!!!\n" if board.is_full?
+    board.is_full?
+  end
+
+  def win?(player, game_state)
+    rows = game_state.each_slice(DIM).to_a
+    win = rows.any? { |row| row.all? { |p| p == player.board_piece } } ||
+      rows.transpose.any? { |row| row.all? { |p| p == player.board_piece } } ||
+      rows.map.with_index.all? { |row, i| row[i] == player.board_piece } ||
+      rows.map.with_index.all? { |row, i| row[DIM - 1 - i] == player.board_piece }
+    @game_result = "The winner is #{player.name}" if win
+    win
   end
 
   def print_board(message: '', parsed_board:, player_name:)
