@@ -23,7 +23,8 @@ class Game
   def play(board)
     loop do
       play_turn(@current_player)
-      end_game if win?(@current_player, @board.state) || tie?(@board)
+      play_pieces = [@current_player.board_piece, @next_player.board_piece]
+      end_game if win?(@current_player, @board.state) || tie?(play_pieces, @board.state)
       change_player
     end
   end
@@ -52,10 +53,10 @@ class Game
     exit 0
   end
 
-  def tie?(board)
-    puts "runing tie?"
-    @game_result = "It's a Draw!!!\n" if board.is_full?
-    board.is_full?
+  def tie?(player_pieces, game_state)
+    is_full = game_state.all? { |pos| player_pieces.include? pos }
+    @game_result = "It's a Draw!!!\n" if is_full
+    is_full
   end
 
   def win?(player, game_state)
