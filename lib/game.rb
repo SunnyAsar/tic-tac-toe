@@ -88,14 +88,20 @@ class Game
     case key
     when KEY_UP
       @board.move_cursor_up
+      false
     when KEY_DOWN
       @board.move_cursor_down
+      false
     when KEY_LEFT
       @board.move_cursor_left
+      false
     when KEY_RIGHT
       @board.move_cursor_right
+      false
     when KEY_RETURN
-      @board.mark_position(player_piece) if valid_move?([@current_player.board_piece, @next_player.board_piece], @board.cursor_value)
+      valid_move =  valid_move?([@current_player.board_piece, @next_player.board_piece], @board.cursor_value)
+      @board.mark_position(player_piece) if valid_move
+      valid_move
     end
   end
 
