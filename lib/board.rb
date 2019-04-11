@@ -1,4 +1,3 @@
-require_relative './prompt.rb'
 # board class
 class Board
   include Prompt
@@ -9,8 +8,8 @@ class Board
     @cursor = 4
   end
 
-  def print(player_name = nil, message = "")
-    board = [
+  def parse_board
+    [
       "                   ",
       "  ┏━━━━━━━━━━━━━┓  ",
       "  ┃    ╷   ╷    ┃  ",
@@ -23,10 +22,6 @@ class Board
       "  ┗━━━━━━━━━━━━━┛  ",
       "                   "
     ].join("\n")
-    system 'clear'
-    say("\n  #{player_name.upcase}'s turn", color: :bright_green) unless player_name.nil?
-    say board, color: :green
-    say("\n #{message}", color: :red)
   end
 
   private
@@ -80,5 +75,9 @@ class Board
 
   def is_full?
     @state.count(PLACEHOLDER).zero?
+  end
+
+  def cursor_value
+    @state[@cursor]
   end
 end

@@ -1,7 +1,7 @@
 require 'tty-prompt'
 # Prompt module to manage IO
 module Prompt
-  @@prompt = TTY::Prompt.new(interrupt: :exit)
+  PROMPT = TTY::Prompt.new(interrupt: :exit)
   KEY_UP = "\e[A".freeze
   KEY_DOWN = "\e[B".freeze
   KEY_LEFT = "\e[D".freeze
@@ -9,18 +9,18 @@ module Prompt
   KEY_RETURN = "\r".freeze
 
   def say(*args)
-    @@prompt.say(*args)
+    PROMPT.say(*args)
   end
 
   def ask(*args)
-    @@prompt.ask(*args)
+    PROMPT.ask(*args)
   end
 
   def selection(*args)
-    @@prompt.select(*args)
+    PROMPT.select(*args)
   end
 
   def keypress(*args)
-    @@prompt.keypress(*args)
+    PROMPT.keypress(*args)
   end
 end
